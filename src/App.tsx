@@ -8,6 +8,19 @@ export default function App() {
   const [showCookieBanner, setShowCookieBanner] = useState(false);
   const [activeModal, setActiveModal] = useState<string | null>(null);
 
+  const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
+  const [scheduleForm, setScheduleForm] = useState({ name: '', car: '', service: '' });
+
+  const handleScheduleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const text = `Olá! Gostaria de agendar um horário.\n\n*Nome:* ${scheduleForm.name}\n*Veículo:* ${scheduleForm.car}\n*Serviço desejado:* ${scheduleForm.service}`;
+    const encodedText = encodeURIComponent(text);
+    window.open(`https://wa.me/555481043307?text=${encodedText}`, '_blank');
+    setIsScheduleModalOpen(false);
+    setScheduleForm({ name: '', car: '', service: '' });
+  };
+
+
   useEffect(() => {
     const consent = localStorage.getItem('sena_cookie_consent');
     if (!consent) {
@@ -157,6 +170,22 @@ export default function App() {
         
         {/* HERO SECTION */}
         <section className="relative min-h-[90vh] pt-6 pb-12 px-6 lg:px-12 flex flex-col items-center overflow-hidden">
+          {/* Mobile Edge-to-Edge Video Background */}
+          <div className="absolute inset-0 z-0 lg:hidden pointer-events-none">
+            <video 
+              src="/herobackground.mp4" 
+              autoPlay 
+              loop 
+              muted 
+              playsInline
+              className="w-full h-[65svh] object-cover brightness-[0.7]"
+              style={{
+                WebkitMaskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
+                maskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)'
+              }}
+            />
+          </div>
+
           
           {/* Top Nav Area */}
           <nav className="w-full max-w-[1600px] grid grid-cols-2 lg:grid-cols-3 items-center z-50 relative py-4 lg:py-6">
@@ -180,9 +209,7 @@ export default function App() {
 
             {/* Right Action (Desktop) */}
             <div className="hidden lg:flex items-center justify-end font-mono text-xs uppercase tracking-widest text-zinc-400">
-              <a href="https://wa.me/555481043307" target="_blank" rel="noopener noreferrer" className="px-6 py-3 border border-zinc-800 rounded-full hover:border-[#E3242B] hover:text-[#E3242B] transition-colors text-white font-semibold">
-                Agendar Horário
-              </a>
+              <button onClick={() => setIsScheduleModalOpen(true)} className="px-6 py-3 border border-zinc-800 rounded-full hover:border-[#E3242B] hover:text-[#E3242B] transition-colors text-white font-semibold">Agendar Horário</button>
             </div>
           </nav>
 
@@ -192,7 +219,7 @@ export default function App() {
             {/* Left Column: Typography & Review */}
             <motion.div 
               style={{ y: heroTextY }}
-              className="w-full lg:w-[55%] flex flex-col justify-center relative z-40"
+              className="w-full lg:w-[55%] flex flex-col justify-center relative z-40 mt-[30svh] lg:mt-0"
             >
               <motion.h2 
                 initial={{ opacity: 0, y: 20 }}
@@ -206,7 +233,7 @@ export default function App() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: mounted ? 1 : 0, y: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
-                className="text-[18vw] lg:text-[7.5vw] leading-[0.9] font-display font-black uppercase text-[#E3242B] tracking-tighter drop-shadow-xl"
+                className="text-[10vw] sm:text-[11vw] lg:text-[7.5vw] leading-[0.9] font-display font-black uppercase text-[#E3242B] tracking-tighter drop-shadow-xl"
               >
                 ESTÉTICA
               </motion.h1>
@@ -214,7 +241,7 @@ export default function App() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: mounted ? 1 : 0, y: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-                className="text-[18vw] lg:text-[7.5vw] leading-[0.9] font-display font-black uppercase text-[#E0E0E0] tracking-tighter drop-shadow-xl"
+                className="text-[10vw] sm:text-[11vw] lg:text-[7.5vw] leading-[0.9] font-display font-black uppercase text-[#E0E0E0] tracking-tighter drop-shadow-xl"
               >
                 AUTOMOTIVA
               </motion.h1>
@@ -224,7 +251,7 @@ export default function App() {
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: mounted ? 1 : 0, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
-                className="w-full lg:w-auto relative z-40 bg-[#121212] p-6 rounded-[24px] border border-white/5 max-w-sm mt-12 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+                className="w-full lg:w-auto relative z-40 bg-black/60 backdrop-blur-xl lg:bg-[#121212] p-6 rounded-[24px] border border-white/10 lg:border-white/5 max-w-sm mt-12 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop" alt="Client" className="w-10 h-10 rounded-full" />
@@ -242,10 +269,10 @@ export default function App() {
               </motion.div>
             </motion.div>
 
-            {/* Right Column: Hero Car Image */}
+            {/* Right Column: Hero Car Image (Desktop) */}
             <motion.div 
               style={{ y: heroCarY }}
-              className="w-full lg:w-[45%] relative mt-12 lg:mt-0 flex items-center justify-center lg:justify-end z-10"
+              className="hidden lg:flex w-full lg:w-[45%] relative mt-12 lg:mt-0 items-center justify-center lg:justify-end z-10"
             >
               <motion.div 
                 initial={{ opacity: 0, scale: 0.95, x: 50 }}
@@ -340,7 +367,7 @@ export default function App() {
                     </li>
                   </ul>
 
-                  <button className="mt-10 px-8 py-4 border border-zinc-700 rounded-full text-sm font-medium hover:border-[#E3242B] hover:text-[#E3242B] transition-all flex items-center gap-3">
+                  <button onClick={() => setIsScheduleModalOpen(true)} className="mt-10 px-8 py-4 border border-zinc-700 rounded-full text-sm font-medium hover:border-[#E3242B] hover:text-[#E3242B] transition-all flex items-center gap-3">
                     Agendar Avaliação <Check className="w-4 h-4" />
                   </button>
                 </motion.div>
@@ -394,7 +421,7 @@ export default function App() {
           {/* Vertical Text */}
           <div className="absolute right-2 lg:right-8 top-0 h-full flex items-center z-0 pointer-events-none">
             <h2 
-              className="text-[25vw] lg:text-[18vw] font-display font-black text-[#111111] leading-[0.8] uppercase tracking-tighter"
+              className="text-[25vw] lg:text-[10vw] sm:text-[11vw] font-display font-black text-[#111111] leading-[0.8] uppercase tracking-tighter"
               style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
             >
               SHIELD 9H
@@ -644,6 +671,7 @@ export default function App() {
                     <motion.button 
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
+                      onClick={() => setIsScheduleModalOpen(true)}
                       className="relative h-14 w-full bg-[#E3242B] rounded-xl flex items-center justify-center text-white font-black text-sm uppercase tracking-wider"
                     >
                       SOLICITAR ORÇAMENTO
@@ -888,6 +916,78 @@ export default function App() {
             </svg>
           </a>
         </div></div>
+        
+        {/* SCHEDULE FORM MODAL */}
+        <AnimatePresence>
+          {isScheduleModalOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+              onClick={() => setIsScheduleModalOpen(false)}
+            >
+              <motion.div
+                initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                onClick={(e) => e.stopPropagation()}
+                className="bg-[#111] border border-zinc-800 rounded-3xl p-6 lg:p-10 max-w-md w-full relative shadow-2xl max-h-[90vh] overflow-y-auto"
+              >
+                <button 
+                  onClick={() => setIsScheduleModalOpen(false)}
+                  className="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+                <h2 className="text-2xl font-display font-black text-white mb-2 uppercase tracking-widest">Agendar Horário</h2>
+                <p className="text-zinc-400 text-sm mb-6">Preencha os dados abaixo e entraremos em contato via WhatsApp para confirmar seu agendamento.</p>
+                
+                <form onSubmit={handleScheduleSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2">Nome Completo</label>
+                    <input 
+                      type="text" 
+                      required
+                      value={scheduleForm.name}
+                      onChange={(e) => setScheduleForm({...scheduleForm, name: e.target.value})}
+                      className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#E3242B] transition-colors"
+                      placeholder="Seu nome"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2">Veículo</label>
+                    <input 
+                      type="text" 
+                      required
+                      value={scheduleForm.car}
+                      onChange={(e) => setScheduleForm({...scheduleForm, car: e.target.value})}
+                      className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#E3242B] transition-colors"
+                      placeholder="Modelo e Ano (ex: Porsche 911 2024)"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2">Serviço Necessário</label>
+                    <textarea 
+                      required
+                      value={scheduleForm.service}
+                      onChange={(e) => setScheduleForm({...scheduleForm, service: e.target.value})}
+                      className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#E3242B] transition-colors h-24 resize-none"
+                      placeholder="O que você gostaria de fazer no veículo?"
+                    ></textarea>
+                  </div>
+                  <button 
+                    type="submit"
+                    className="w-full bg-[#E3242B] hover:bg-white hover:text-black transition-colors rounded-xl font-bold text-sm uppercase tracking-widest text-white py-4 mt-2"
+                  >
+                    Enviar para WhatsApp
+                  </button>
+                </form>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* MODAL / POPUP COMPONENT */}
         <AnimatePresence>
           {activeModal && modalContent[activeModal] && (
