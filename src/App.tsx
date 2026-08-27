@@ -7,6 +7,7 @@ export default function App() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [showCookieBanner, setShowCookieBanner] = useState(false);
   const [activeModal, setActiveModal] = useState<string | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
   const [scheduleForm, setScheduleForm] = useState({ name: '', car: '', service: '' });
@@ -197,14 +198,14 @@ export default function App() {
 
             {/* Mobile Menu Icon */}
             <div className="lg:hidden flex justify-end">
-              <Menu className="w-8 h-8 text-white" />
+              <button onClick={() => setIsMobileMenuOpen(true)}><Menu className="w-8 h-8 text-white" /></button>
             </div>
 
             {/* Center Menu (Desktop) */}
             <div className="hidden lg:flex items-center justify-center gap-10 font-mono text-xs uppercase tracking-widest text-zinc-400">
-              <a href="#" className="hover:text-white transition-colors">Serviços</a>
-              <a href="#" className="hover:text-white transition-colors">Dúvidas Frequentes</a>
-              <a href="#" className="hover:text-white transition-colors">Avaliações</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setActiveModal('servicos'); }} className="hover:text-white transition-colors">Serviços</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setActiveModal('duvidas'); }} className="hover:text-white transition-colors">Dúvidas Frequentes</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setActiveModal('avaliacoes'); }} className="hover:text-white transition-colors">Avaliações</a>
             </div>
 
             {/* Right Action (Desktop) */}
@@ -212,6 +213,37 @@ export default function App() {
               <button onClick={() => setIsScheduleModalOpen(true)} className="px-6 py-3 border border-zinc-800 rounded-full hover:border-[#E3242B] hover:text-[#E3242B] transition-colors text-white font-semibold">Agendar Horário</button>
             </div>
           </nav>
+        {/* MOBILE MENU MODAL */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[120] bg-black/95 backdrop-blur-xl flex flex-col p-6"
+            >
+              <div className="flex justify-between items-center mb-12">
+                <img src="/logoesteticaauto.png" alt="Sena" className="h-12 w-auto object-contain" />
+                <button onClick={() => setIsMobileMenuOpen(false)}>
+                  <X className="w-8 h-8 text-white" />
+                </button>
+              </div>
+              
+              <div className="flex flex-col gap-6 text-xl font-display font-bold uppercase tracking-widest">
+                <button onClick={() => { setIsMobileMenuOpen(false); setIsScheduleModalOpen(true); }} className="text-left text-[#E3242B]">Agendar Horário</button>
+                <div className="w-full h-px bg-white/10 my-2"></div>
+                <button onClick={() => { setIsMobileMenuOpen(false); setActiveModal('servicos'); }} className="text-left text-white hover:text-[#E3242B] transition-colors">Nossos Serviços</button>
+                <button onClick={() => { setIsMobileMenuOpen(false); setActiveModal('avaliacoes'); }} className="text-left text-white hover:text-[#E3242B] transition-colors">Avaliações</button>
+                <button onClick={() => { setIsMobileMenuOpen(false); setActiveModal('duvidas'); }} className="text-left text-white hover:text-[#E3242B] transition-colors">Dúvidas Frequentes</button>
+                <div className="w-full h-px bg-white/10 my-2"></div>
+                <button onClick={() => { setIsMobileMenuOpen(false); setActiveModal('privacidade'); }} className="text-left text-sm text-zinc-400 hover:text-white transition-colors">Política de Privacidade</button>
+                <button onClick={() => { setIsMobileMenuOpen(false); setActiveModal('cookies'); }} className="text-left text-sm text-zinc-400 hover:text-white transition-colors">Política de Cookies</button>
+                <button onClick={() => { setIsMobileMenuOpen(false); setActiveModal('termos'); }} className="text-left text-sm text-zinc-400 hover:text-white transition-colors">Termos de Autorização</button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
 
           {/* Main Hero Layout (Aligned to reference moldes) */}
           <div className="w-full max-w-[1600px] flex flex-col lg:flex-row items-center justify-between mt-12 lg:mt-8 z-20 relative flex-1">
@@ -581,7 +613,7 @@ export default function App() {
             </div>
 
             {/* Right Column - Stylized Floating Phones */}
-            <div className="relative h-[600px] lg:h-[800px] w-full flex justify-center items-center perspective-[2000px]">
+            <div className="relative h-[850px] lg:h-[800px] w-full flex justify-center items-center perspective-[2000px]">
               
               {/* Phone 1 */}
               <motion.div 
@@ -589,7 +621,7 @@ export default function App() {
                 whileInView={{ opacity: 1, y: 0, rotateX: 20, rotateY: -15, rotateZ: -12 }}
                 viewport={{ once: true }}
                 transition={{ duration: 1 }}
-                className="absolute left-[5%] lg:left-[15%] top-[5%] lg:top-[10%] w-[260px] lg:w-[280px] h-[560px] lg:h-[580px] bg-[#161616] rounded-[40px] border-[6px] border-[#222] shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col z-10"
+                className="absolute left-[5%] lg:left-[15%] top-0 lg:top-[10%] w-[260px] lg:w-[280px] h-[560px] lg:h-[580px] bg-[#161616] rounded-[40px] border-[6px] border-[#222] shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col z-20"
               >
                 {/* Fake App UI */}
                 <div className="flex-1 p-6 flex flex-col relative">
@@ -686,7 +718,7 @@ export default function App() {
                 whileInView={{ opacity: 1, y: 0, rotateX: 15, rotateY: 25, rotateZ: 8 }}
                 viewport={{ once: true }}
                 transition={{ duration: 1, delay: 0.2 }}
-                className="absolute right-[5%] lg:right-[10%] top-[30%] lg:top-[25%] w-[260px] lg:w-[280px] h-[560px] lg:h-[580px] bg-[#111] rounded-[40px] border-[6px] border-[#222] shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col z-20"
+                className="absolute right-[5%] lg:right-[10%] top-[48%] lg:top-[25%] w-[260px] lg:w-[280px] h-[560px] lg:h-[580px] bg-[#111] rounded-[40px] border-[6px] border-[#222] shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col z-10 lg:z-20"
               >
                 {/* Fake App UI 2 */}
                 <div className="h-[45%] w-full bg-zinc-900 relative">
