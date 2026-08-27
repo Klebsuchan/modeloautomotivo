@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
-import { Star, ArrowRight, User, ChevronDown, Check, Smartphone, Layers, LayoutGrid, Menu, Plus, Minus, Instagram, MapPin } from 'lucide-react';
+import { Star, ArrowRight, User, ChevronDown, Check, Smartphone, Layers, LayoutGrid, Menu, Plus, Minus, Instagram, MapPin } from 'lucide-react'; import { Car, Calendar, Wrench } from 'lucide-react';
 
 export default function App() {
   const [mounted, setMounted] = useState(false);
@@ -484,11 +484,79 @@ export default function App() {
                   <p className="text-xs text-zinc-400 mb-8">Preencha os dados do seu veículo.</p>
                   
                   <div className="space-y-4 flex-1">
-                     <div className="h-12 w-full bg-zinc-900 rounded-xl border border-zinc-800"></div>
-                     <div className="h-12 w-full bg-zinc-900 rounded-xl border border-zinc-800"></div>
-                     <div className="h-32 w-full bg-zinc-900 rounded-xl border border-zinc-800"></div>
+                     <motion.div 
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, delay: 0.8 }}
+                        className="h-12 w-full bg-zinc-900 rounded-xl border border-zinc-800 flex items-center px-4 gap-3 overflow-hidden relative"
+                     >
+                        <Car className="w-4 h-4 text-zinc-500 shrink-0" />
+                        <motion.span 
+                           initial={{ opacity: 0 }}
+                           whileInView={{ opacity: 1 }}
+                           transition={{ duration: 0.5, delay: 1.2 }}
+                           className="text-sm text-zinc-300 font-medium whitespace-nowrap"
+                        >
+                          Porsche 911 GT3 RS
+                        </motion.span>
+                        <motion.div 
+                           initial={{ left: "-100%" }}
+                           whileInView={{ left: "200%" }}
+                           transition={{ duration: 2, delay: 1.5, repeat: Infinity, repeatDelay: 3 }}
+                           className="absolute top-0 bottom-0 w-12 bg-white/5 blur-xl skew-x-12"
+                        ></motion.div>
+                     </motion.div>
+                     
+                     <motion.div 
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, delay: 1.0 }}
+                        className="h-12 w-full bg-zinc-900 rounded-xl border border-zinc-800 flex items-center px-4 gap-3 relative overflow-hidden"
+                     >
+                        <Calendar className="w-4 h-4 text-zinc-500 shrink-0" />
+                        <motion.span 
+                           initial={{ opacity: 0 }}
+                           whileInView={{ opacity: 1 }}
+                           transition={{ duration: 0.5, delay: 1.6 }}
+                           className="text-sm text-zinc-300 font-medium whitespace-nowrap"
+                        >
+                          2024
+                        </motion.span>
+                     </motion.div>
+                     
+                     <motion.div 
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, delay: 1.2 }}
+                        className="h-32 w-full bg-zinc-900 rounded-xl border border-zinc-800 flex items-start px-4 py-3 gap-3 relative overflow-hidden"
+                     >
+                        <Wrench className="w-4 h-4 text-zinc-500 shrink-0 mt-1" />
+                        <motion.span 
+                           initial={{ opacity: 0 }}
+                           whileInView={{ opacity: 1 }}
+                           transition={{ duration: 0.5, delay: 2.0 }}
+                           className="text-sm text-zinc-400 font-medium line-clamp-3 leading-relaxed"
+                        >
+                          Proteção cerâmica completa (9H) + Vitrificação de plásticos e lavagem detalhada de chassi.
+                        </motion.span>
+                     </motion.div>
                   </div>
-                  <div className="h-14 w-full bg-[#E3242B] rounded-xl mt-4 flex items-center justify-center text-black font-bold text-sm">ENVIAR</div>
+                  
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: 1.5 }}
+                    className="relative group mt-4"
+                  >
+                    <div className="absolute inset-0 bg-[#E3242B] rounded-xl blur-md opacity-50 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <motion.button 
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="relative h-14 w-full bg-[#E3242B] rounded-xl flex items-center justify-center text-white font-black text-sm uppercase tracking-wider"
+                    >
+                      SOLICITAR ORÇAMENTO
+                    </motion.button>
+                  </motion.div>
                 </div>
               </motion.div>
 
@@ -509,18 +577,41 @@ export default function App() {
                   <h3 className="font-display font-black text-xl mb-2 text-white uppercase">Nossos <br/><span className="text-[#E3242B]">Trabalhos</span></h3>
                   <p className="text-xs text-zinc-400 mb-6 line-clamp-2">Acompanhe o portfólio completo de transformações recentes no estúdio.</p>
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="aspect-square bg-zinc-800 rounded-xl overflow-hidden">
-                       <img src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?q=80&w=400&auto=format&fit=crop" className="w-full h-full object-cover" />
-                    </div>
-                    <div className="aspect-square bg-zinc-800 rounded-xl overflow-hidden">
-                       <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=400&auto=format&fit=crop" className="w-full h-full object-cover" />
-                    </div>
-                    <div className="aspect-square bg-zinc-800 rounded-xl overflow-hidden">
-                       <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=400&auto=format&fit=crop" className="w-full h-full object-cover" />
-                    </div>
-                    <div className="aspect-square bg-zinc-800 rounded-xl flex items-center justify-center">
-                       <span className="text-xs text-zinc-500 font-medium">+ VER MAIS</span>
-                    </div>
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.5, delay: 0.8 }}
+                      className="aspect-square bg-zinc-800 rounded-xl overflow-hidden relative group"
+                    >
+                       <img src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?q=80&w=400&auto=format&fit=crop" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><Star className="w-6 h-6 text-white" /></div>
+                    </motion.div>
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.5, delay: 1.0 }}
+                      className="aspect-square bg-zinc-800 rounded-xl overflow-hidden relative group"
+                    >
+                       <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=400&auto=format&fit=crop" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><Star className="w-6 h-6 text-white" /></div>
+                    </motion.div>
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.5, delay: 1.2 }}
+                      className="aspect-square bg-zinc-800 rounded-xl overflow-hidden relative group"
+                    >
+                       <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=400&auto=format&fit=crop" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><Star className="w-6 h-6 text-white" /></div>
+                    </motion.div>
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.5, delay: 1.4 }}
+                      className="aspect-square bg-zinc-900 border border-zinc-800 rounded-xl flex items-center justify-center cursor-pointer hover:bg-zinc-800 transition-colors"
+                    >
+                       <span className="text-xs text-zinc-400 font-medium uppercase tracking-widest">+ Mais</span>
+                    </motion.div>
                   </div>
                 </div>
               </motion.div>
@@ -528,6 +619,63 @@ export default function App() {
             </div>
           </div>
           {/* Footer Grid / Meta info (Replaced by ELEGANT FOOTER) */}
+        </section>
+
+        {/* LOCATION SECTION */}
+        <section className="w-full bg-[#0a0a0a] pt-24 pb-24 px-6 lg:px-12 border-t border-white/5 relative overflow-hidden">
+          <div className="max-w-[1500px] mx-auto flex flex-col lg:flex-row items-stretch justify-between gap-12 lg:gap-20 relative z-10">
+            {/* Left Info */}
+            <motion.div 
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="lg:w-1/3 flex flex-col justify-center"
+            >
+              <h2 className="text-4xl lg:text-5xl font-display font-black text-white uppercase tracking-tighter mb-4">
+                Onde <span className="text-[#E3242B]">Estamos</span>
+              </h2>
+              <p className="text-zinc-400 font-light text-lg mb-10 leading-relaxed">
+                Venha nos fazer uma visita. Nosso estúdio está equipado com a melhor estrutura para receber o seu veículo com segurança e exclusividade.
+              </p>
+              
+              <div className="flex flex-col gap-6">
+                <div className="flex items-start gap-5">
+                  <div className="w-14 h-14 rounded-full bg-[#111] flex items-center justify-center text-[#E3242B] shrink-0 border border-zinc-800 shadow-xl">
+                    <MapPin className="w-6 h-6" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-white font-bold text-lg mb-2">Endereço</span>
+                    <span className="text-zinc-400 leading-relaxed">Rua Miguel Vargas, 211<br/>Boqueirão, Passo Fundo - RS</span>
+                    <a href="https://share.google/l8Y27np4DGV8rrUvI" target="_blank" rel="noopener noreferrer" className="text-[#E3242B] text-sm uppercase tracking-widest mt-4 hover:text-white transition-colors flex items-center gap-2 w-fit font-bold group">
+                      ABRIR NO MAPA <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+            
+            {/* Right Map */}
+            <motion.div 
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+              className="lg:w-2/3 h-[400px] lg:h-[500px] rounded-[32px] overflow-hidden border border-zinc-800/50 shadow-2xl relative"
+            >
+              <iframe 
+                src="https://maps.google.com/maps?q=Rua+Miguel+Vargas,+211,+Boqueir%C3%A3o,+Passo+Fundo,+RS&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                width="100%" 
+                height="100%" 
+                style={{ border: 0 }} 
+                allowFullScreen 
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Localização Sena Estética Automotiva"
+                className="grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
+              ></iframe>
+            </motion.div>
+          </div>
         </section>
 
         {/* ELEGANT FOOTER */}
@@ -588,27 +736,12 @@ export default function App() {
                     </span>
                     (54) 8104-3307
                   </a>
-                  <a href="https://share.google/l8Y27np4DGV8rrUvI" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors w-fit flex items-start gap-3">
+                  <a href="https://share.google/l8Y27np4DGV8rrUvI" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors w-fit flex items-start gap-3 mt-1">
                     <span className="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center text-[#E3242B] shrink-0">
                       <MapPin className="w-4 h-4" />
                     </span>
-                    <span className="mt-1 leading-relaxed">Rua Miguel Vargas, 211<br/>Boqueirão, Passo Fundo - RS</span>
+                    <span className="mt-1 leading-relaxed">Rua Miguel Vargas, 211<br/>Passo Fundo - RS</span>
                   </a>
-                  
-                  {/* Real-time Map */}
-                  <div className="w-full h-32 mt-2 rounded-xl overflow-hidden border border-zinc-800/50">
-                    <iframe 
-                      src="https://maps.google.com/maps?q=Rua+Miguel+Vargas,+211,+Boqueir%C3%A3o,+Passo+Fundo,+RS&t=&z=15&ie=UTF8&iwloc=&output=embed" 
-                      width="100%" 
-                      height="100%" 
-                      style={{ border: 0 }} 
-                      allowFullScreen 
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                      title="Localização Sena Estética Automotiva"
-                      className="grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
-                    ></iframe>
-                  </div>
                 </div>
               </motion.div>
 
