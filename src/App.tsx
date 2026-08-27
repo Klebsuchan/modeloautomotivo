@@ -67,24 +67,28 @@ export default function App() {
         <section className="relative min-h-[90vh] pt-6 pb-12 px-6 lg:px-12 flex flex-col items-center overflow-hidden">
           
           {/* Top Nav Area */}
-          <nav className="w-full max-w-[1600px] flex justify-between items-center z-50 relative py-4 lg:py-6">
+          <nav className="w-full max-w-[1600px] grid grid-cols-2 lg:grid-cols-3 items-center z-50 relative py-4 lg:py-6">
             
             {/* Logo */}
-            <div className="flex items-center">
+            <div className="flex items-center justify-start">
               <img src="/logoesteticaauto.png" alt="Sena Estética Automotiva" className="h-16 lg:h-24 w-auto object-contain drop-shadow-lg" style={{ imageRendering: 'high-quality' }} />
             </div>
 
             {/* Mobile Menu Icon */}
-            <div className="lg:hidden">
+            <div className="lg:hidden flex justify-end">
               <Menu className="w-8 h-8 text-white" />
             </div>
 
-            {/* Right Menu (Desktop) */}
-            <div className="hidden lg:flex items-center gap-10 font-mono text-xs uppercase tracking-widest text-zinc-400">
+            {/* Center Menu (Desktop) */}
+            <div className="hidden lg:flex items-center justify-center gap-10 font-mono text-xs uppercase tracking-widest text-zinc-400">
               <a href="#" className="hover:text-white transition-colors">Serviços</a>
-              <a href="#" className="hover:text-white transition-colors">Portfólio</a>
+              <a href="#" className="hover:text-white transition-colors">Dúvidas Frequentes</a>
               <a href="#" className="hover:text-white transition-colors">Avaliações</a>
-              <a href="#" className="px-6 py-3 border border-zinc-800 rounded-full hover:border-[#E3242B] hover:text-[#E3242B] transition-colors text-white font-semibold">
+            </div>
+
+            {/* Right Action (Desktop) */}
+            <div className="hidden lg:flex items-center justify-end font-mono text-xs uppercase tracking-widest text-zinc-400">
+              <a href="https://wa.me/555481043307" target="_blank" rel="noopener noreferrer" className="px-6 py-3 border border-zinc-800 rounded-full hover:border-[#E3242B] hover:text-[#E3242B] transition-colors text-white font-semibold">
                 Agendar Horário
               </a>
             </div>
@@ -157,9 +161,12 @@ export default function App() {
                 transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
                 className="relative w-full lg:absolute lg:right-[-5%] lg:w-[120%] z-20 pointer-events-none"
               >
-                <img 
-                  src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=1200&auto=format&fit=crop" 
-                  alt="Carro de Alta Performance" 
+                <video 
+                  src="/herobackground.mp4" 
+                  autoPlay 
+                  loop 
+                  muted 
+                  playsInline
                   className="w-full h-auto object-cover rounded-3xl lg:rounded-none drop-shadow-2xl brightness-75"
                   style={{
                     WebkitMaskImage: 'linear-gradient(to left, black 80%, transparent 100%)',
@@ -575,18 +582,33 @@ export default function App() {
               >
                 <h4 className="font-display font-bold text-white uppercase tracking-widest text-sm">Contato</h4>
                 <div className="flex flex-col gap-3 text-sm text-zinc-400 font-light">
-                  <a href="#" className="hover:text-white transition-colors w-fit flex items-center gap-3">
+                  <a href="https://wa.me/555481043307" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors w-fit flex items-center gap-3">
                     <span className="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center text-[#E3242B]">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                     </span>
-                    (11) 99999-9999
+                    (54) 8104-3307
                   </a>
-                  <a href="#" className="hover:text-white transition-colors w-fit flex items-center gap-3">
-                    <span className="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center text-[#E3242B]">
+                  <a href="https://share.google/l8Y27np4DGV8rrUvI" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors w-fit flex items-start gap-3">
+                    <span className="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center text-[#E3242B] shrink-0">
                       <MapPin className="w-4 h-4" />
                     </span>
-                    São Paulo, SP
+                    <span className="mt-1 leading-relaxed">Rua Miguel Vargas, 211<br/>Boqueirão, Passo Fundo - RS</span>
                   </a>
+                  
+                  {/* Real-time Map */}
+                  <div className="w-full h-32 mt-2 rounded-xl overflow-hidden border border-zinc-800/50">
+                    <iframe 
+                      src="https://maps.google.com/maps?q=Rua+Miguel+Vargas,+211,+Boqueir%C3%A3o,+Passo+Fundo,+RS&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                      width="100%" 
+                      height="100%" 
+                      style={{ border: 0 }} 
+                      allowFullScreen 
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title="Localização Sena Estética Automotiva"
+                      className="grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
+                    ></iframe>
+                  </div>
                 </div>
               </motion.div>
 
@@ -600,10 +622,10 @@ export default function App() {
               >
                 <h4 className="font-display font-bold text-white uppercase tracking-widest text-sm">Redes Sociais</h4>
                 <div className="flex gap-4">
-                  <a href="#" className="w-12 h-12 rounded-full border border-zinc-800 flex items-center justify-center hover:bg-[#E3242B] hover:border-[#E3242B] transition-all text-white group">
+                  <a href="https://www.instagram.com/senaesteticaautomotiva?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-zinc-800 flex items-center justify-center hover:bg-[#E3242B] hover:border-[#E3242B] transition-all text-white group">
                     <Instagram className="w-5 h-5 group-hover:scale-110 transition-transform" />
                   </a>
-                  <a href="#" className="w-12 h-12 rounded-full border border-zinc-800 flex items-center justify-center hover:bg-[#E3242B] hover:border-[#E3242B] transition-all text-white group">
+                  <a href="https://wa.me/555481043307" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-zinc-800 flex items-center justify-center hover:bg-[#E3242B] hover:border-[#E3242B] transition-all text-white group">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 3.4L3 21" /><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1" /></svg>
                   </a>
                 </div>
@@ -631,7 +653,7 @@ export default function App() {
         <div className="fixed bottom-6 right-6 z-50 flex items-center justify-center">
           <div className="absolute inset-0 bg-[#E3242B] rounded-full animate-ping opacity-40 duration-1000"></div>
           <a 
-            href="https://wa.me/5511999999999" 
+            href="https://wa.me/555481043307" 
             target="_blank"
             rel="noopener noreferrer"
             className="relative bg-[#E3242B] text-white p-4 rounded-full shadow-[0_10px_30px_rgba(227,36,43,0.5)] hover:bg-white hover:text-[#E3242B] transition-colors duration-300 flex items-center justify-center group"
