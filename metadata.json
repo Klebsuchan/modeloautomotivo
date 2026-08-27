@@ -1,0 +1,6 @@
+{
+  "name": "Estética Automotiva Premium",
+  "description": "Landing page MVP de alta conversão para serviços de estética automotiva premium.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
