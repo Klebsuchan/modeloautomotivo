@@ -1,6 +1,6 @@
 {
-  "name": "Estética Automotiva Premium",
-  "description": "Landing page MVP de alta conversão para serviços de estética automotiva premium.",
+  "name": "Sena Estética Automotiva",
+  "description": "Estúdio de estética automotiva premium em Passo Fundo. Especialistas em vitrificação, lavagem detalhada e proteção de alta performance.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

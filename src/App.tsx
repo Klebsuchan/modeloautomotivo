@@ -1,10 +1,102 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
-import { Star, ArrowRight, User, ChevronDown, Check, Smartphone, Layers, LayoutGrid, Menu, Plus, Minus, Instagram, MapPin } from 'lucide-react'; import { Car, Calendar, Wrench } from 'lucide-react';
+import { Star, ArrowRight, User, ChevronDown, Check, Smartphone, Layers, LayoutGrid, Menu, Plus, Minus, Instagram, MapPin } from 'lucide-react'; import { X } from 'lucide-react'; import { Car, Calendar, Wrench } from 'lucide-react';
 
 export default function App() {
   const [mounted, setMounted] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [showCookieBanner, setShowCookieBanner] = useState(false);
+  const [activeModal, setActiveModal] = useState<string | null>(null);
+
+  useEffect(() => {
+    const consent = localStorage.getItem('sena_cookie_consent');
+    if (!consent) {
+      const timer = setTimeout(() => setShowCookieBanner(true), 1500);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const acceptCookies = () => {
+    localStorage.setItem('sena_cookie_consent', 'true');
+    setShowCookieBanner(false);
+  };
+
+  const modalContent: Record<string, { title: string, content: React.ReactNode }> = {
+    servicos: {
+      title: "Nossos Serviços",
+      content: (
+        <div className="space-y-4">
+          <p>Oferecemos um portfólio completo de estética automotiva premium, projetado para elevar o visual e a proteção do seu veículo:</p>
+          <ul className="list-disc pl-5 space-y-2 text-zinc-300">
+            <li><strong>Vitrificação 9H:</strong> Proteção cerâmica de alta durabilidade contra riscos leves, raios UV e produtos químicos.</li>
+            <li><strong>Polimento Técnico:</strong> Correção de pintura para remover hologramas e imperfeições, devolvendo o brilho original.</li>
+            <li><strong>Lavagem Detalhada:</strong> Limpeza minuciosa de chassi, motor e caixa de rodas com produtos biodegradáveis de alta performance.</li>
+            <li><strong>Higienização Interna:</strong> Limpeza profunda e hidratação de bancos de couro, além de oxi-sanitização para remover odores.</li>
+          </ul>
+        </div>
+      )
+    },
+    avaliacoes: {
+      title: "Avaliações dos Clientes",
+      content: (
+        <div className="space-y-4">
+          <p>Nossa maior satisfação é o sorriso dos nossos clientes ao verem a transformação de seus veículos.</p>
+          <div className="bg-zinc-900 p-4 rounded-xl border border-zinc-800">
+            <p className="italic text-zinc-300">"O resultado da vitrificação no meu Porsche superou todas as expectativas. O atendimento do estúdio é impecável e o brilho do carro parece de showroom."</p>
+            <p className="text-[#E3242B] font-bold mt-2">- Marcos T., Cliente Premium</p>
+          </div>
+          <div className="bg-zinc-900 p-4 rounded-xl border border-zinc-800">
+            <p className="italic text-zinc-300">"A lavagem detalhada revelou cores no meu carro que eu nem lembrava que existiam. Profissionalismo e cuidado em cada detalhe."</p>
+            <p className="text-[#E3242B] font-bold mt-2">- Juliano R.</p>
+          </div>
+        </div>
+      )
+    },
+    duvidas: {
+      title: "Dúvidas Frequentes",
+      content: (
+        <div className="space-y-4">
+          <p><strong>Qual a diferença entre polimento e vitrificação?</strong><br/>O polimento corrige a pintura (remove riscos). A vitrificação protege essa correção com uma camada cerâmica (Coat 9H).</p>
+          <p><strong>Quanto tempo o carro precisa ficar no estúdio?</strong><br/>Depende do serviço. Uma lavagem detalhada leva cerca de 4 a 6 horas. Serviços de polimento e vitrificação podem levar de 2 a 4 dias para respeitar o tempo de cura dos produtos.</p>
+          <p><strong>Vocês atendem a domicílio?</strong><br/>Não. Para garantir o padrão premium de controle de iluminação, poeira e temperatura, todos os serviços são realizados em nosso estúdio.</p>
+        </div>
+      )
+    },
+    privacidade: {
+      title: "Política de Privacidade",
+      content: (
+        <div className="space-y-4">
+          <p>A Sena Estética Automotiva está comprometida em proteger a sua privacidade. Esta política descreve como coletamos, usamos e protegemos as suas informações pessoais.</p>
+          <p>Coletamos informações (como nome, telefone e dados do veículo) apenas com o propósito de agendar serviços, enviar orçamentos e melhorar o seu atendimento.</p>
+          <p>Não compartilhamos, vendemos ou alugamos suas informações pessoais para terceiros em hipótese alguma.</p>
+        </div>
+      )
+    },
+    cookies: {
+      title: "Política de Cookies",
+      content: (
+        <div className="space-y-4">
+          <p>Utilizamos cookies em nosso site para garantir a melhor experiência possível. Eles nos ajudam a entender como você interage com a página.</p>
+          <p><strong>Cookies Essenciais:</strong> Necessários para o funcionamento básico do site e não podem ser desativados.</p>
+          <p><strong>Cookies Analíticos:</strong> Nos ajudam a melhorar o site analisando como os visitantes o utilizam, de forma anônima.</p>
+          <p>Ao continuar a usar este site, você concorda com o uso de cookies de acordo com esta política.</p>
+        </div>
+      )
+    },
+    termos: {
+      title: "Termos de Autorização",
+      content: (
+        <div className="space-y-4">
+          <p>Ao deixar seu veículo na Sena Estética Automotiva, você concorda com os seguintes termos:</p>
+          <ul className="list-disc pl-5 space-y-2 text-zinc-300">
+            <li>Autoriza a realização dos serviços especificados no orçamento aprovado.</li>
+            <li>Reconhece que objetos de valor deixados no interior do veículo são de inteira responsabilidade do proprietário (pedimos que os retirem antes de entregar o veículo).</li>
+            <li>Autoriza o uso de imagens do veículo para fins de portfólio e divulgação nas redes sociais da estética (as placas serão ocultadas por padrão).</li>
+          </ul>
+        </div>
+      )
+    }
+  };
 
   const { scrollY } = useScroll();
   const heroTextY = useTransform(scrollY, [0, 1000], [0, 80]);
@@ -711,12 +803,12 @@ export default function App() {
               >
                 <h4 className="font-display font-bold text-white uppercase tracking-widest text-sm">Links Úteis</h4>
                 <div className="flex flex-col gap-3 text-sm text-zinc-400 font-light">
-                  <a href="#" className="hover:text-[#E3242B] transition-colors w-fit">Nossos Serviços</a>
-                  <a href="#" className="hover:text-[#E3242B] transition-colors w-fit">Avaliações</a>
-                  <a href="#" className="hover:text-[#E3242B] transition-colors w-fit">Dúvidas Frequentes</a>
-                  <a href="#" className="hover:text-[#E3242B] transition-colors w-fit">Política de Privacidade</a>
-                  <a href="#" className="hover:text-[#E3242B] transition-colors w-fit">Política de Cookies</a>
-                  <a href="#" className="hover:text-[#E3242B] transition-colors w-fit">Termos de Autorização</a>
+                  <a href="#" onClick={(e) => { e.preventDefault(); setActiveModal('servicos'); }} className="hover:text-[#E3242B] transition-colors w-fit">Nossos Serviços</a>
+                  <a href="#" onClick={(e) => { e.preventDefault(); setActiveModal('avaliacoes'); }} className="hover:text-[#E3242B] transition-colors w-fit">Avaliações</a>
+                  <a href="#" onClick={(e) => { e.preventDefault(); setActiveModal('duvidas'); }} className="hover:text-[#E3242B] transition-colors w-fit">Dúvidas Frequentes</a>
+                  <a href="#" onClick={(e) => { e.preventDefault(); setActiveModal('privacidade'); }} className="hover:text-[#E3242B] transition-colors w-fit">Política de Privacidade</a>
+                  <a href="#" onClick={(e) => { e.preventDefault(); setActiveModal('cookies'); }} className="hover:text-[#E3242B] transition-colors w-fit">Política de Cookies</a>
+                  <a href="#" onClick={(e) => { e.preventDefault(); setActiveModal('termos'); }} className="hover:text-[#E3242B] transition-colors w-fit">Termos de Autorização</a>
                 </div>
               </motion.div>
 
@@ -795,10 +887,70 @@ export default function App() {
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
             </svg>
           </a>
-        </div>
+        </div></div>
+        {/* MODAL / POPUP COMPONENT */}
+        <AnimatePresence>
+          {activeModal && modalContent[activeModal] && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+              onClick={() => setActiveModal(null)}
+            >
+              <motion.div
+                initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                onClick={(e) => e.stopPropagation()}
+                className="bg-[#111] border border-zinc-800 rounded-3xl p-6 lg:p-10 max-w-2xl w-full relative shadow-2xl max-h-[90vh] overflow-y-auto"
+              >
+                <button 
+                  onClick={() => setActiveModal(null)}
+                  className="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+                <h2 className="text-2xl font-display font-black text-white mb-6 uppercase tracking-widest">{modalContent[activeModal].title}</h2>
+                <div className="text-zinc-400 font-light leading-relaxed">
+                  {modalContent[activeModal].content}
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-      </div>
-    </>
-  );
+        {/* COOKIE BANNER */}
+        <AnimatePresence>
+          {showCookieBanner && (
+            <motion.div
+              initial={{ y: 100, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 100, opacity: 0 }}
+              className="fixed bottom-0 left-0 right-0 z-[90] p-4 pointer-events-none"
+            >
+              <div className="max-w-5xl mx-auto bg-zinc-950/90 backdrop-blur-md border border-zinc-800 rounded-2xl p-6 shadow-2xl pointer-events-auto flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="flex-1">
+                  <h3 className="text-white font-bold mb-2">Sua privacidade é importante</h3>
+                  <p className="text-zinc-400 text-sm font-light leading-relaxed">
+                    Utilizamos cookies para oferecer a melhor experiência, analisar o tráfego do site e personalizar conteúdo. 
+                    Ao continuar navegando, você concorda com a nossa <button onClick={() => setActiveModal('cookies')} className="text-[#E3242B] hover:underline font-medium">Política de Cookies</button>.
+                  </p>
+                </div>
+                <div className="flex gap-4 shrink-0">
+                  <button 
+                    onClick={acceptCookies}
+                    className="px-8 py-3 bg-[#E3242B] hover:bg-white hover:text-black transition-colors rounded-xl font-bold text-sm uppercase tracking-widest text-white"
+                  >
+                    Aceitar e Fechar
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+</>
+);
 }
 
