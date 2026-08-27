@@ -1,9 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'motion/react';
-import { Star, ArrowRight, User, ChevronDown, Check, Smartphone, Layers, LayoutGrid, Menu } from 'lucide-react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
+import { Star, ArrowRight, User, ChevronDown, Check, Smartphone, Layers, LayoutGrid, Menu, Plus, Minus, Instagram, MapPin } from 'lucide-react';
 
 export default function App() {
   const [mounted, setMounted] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  const { scrollY } = useScroll();
+  const heroTextY = useTransform(scrollY, [0, 1000], [0, 80]);
+  const heroCarY = useTransform(scrollY, [0, 1000], [0, 200]);
+
+  const faqs = [
+    {
+      question: "Qual a diferença entre polimento e vitrificação?",
+      answer: "O polimento visa corrigir a pintura, removendo riscos, manchas e hologramas. Já a vitrificação é a aplicação de uma proteção de alta resistência (Coat 9H) que sela a pintura, intensifica o brilho e protege contra agressões externas."
+    },
+    {
+      question: "Quanto tempo dura a proteção da vitrificação?",
+      answer: "Trabalhamos com produtos premium que garantem proteção real de 1 a 3 anos, dependendo do pacote contratado e dos cuidados na lavagem e manutenção do dia a dia."
+    },
+    {
+      question: "O detalhamento interno remove manchas dos bancos?",
+      answer: "Sim! Nosso detalhamento interno conta com extração profunda para tecidos e higienização com hidratação premium para bancos de couro, recuperando o aspecto original de fábrica."
+    },
+    {
+      question: "Vocês oferecem garantia nos serviços prestados?",
+      answer: "Absolutamente. Você recebe um certificado de garantia sobre a durabilidade da aplicação da vitrificação e demais serviços, válido mediante as manutenções preventivas orientadas por nossa equipe."
+    }
+  ];
 
   useEffect(() => {
     setMounted(true);
@@ -33,114 +57,118 @@ export default function App() {
           border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-          background: #DFB78C;
+          background: #E3242B;
         }
       `}</style>
 
-      <div className="min-h-screen bg-[#090909] text-white font-body selection:bg-[#DFB78C] selection:text-black overflow-x-hidden">
+      <div className="min-h-screen bg-[#090909] text-white font-body selection:bg-[#E3242B] selection:text-black overflow-x-hidden">
         
         {/* HERO SECTION */}
-        <section className="relative min-h-screen pt-6 pb-20 px-6 lg:px-12 flex flex-col items-center overflow-hidden">
+        <section className="relative min-h-[90vh] pt-6 pb-12 px-6 lg:px-12 flex flex-col items-center overflow-hidden">
           
           {/* Top Nav Area */}
-          <nav className="w-full max-w-[1600px] flex justify-between items-start z-50 relative">
+          <nav className="w-full max-w-[1600px] flex justify-between items-center z-50 relative py-4 lg:py-6">
             
-            {/* Left Dates (Desktop only) */}
-            <div className="hidden lg:flex flex-col items-center gap-4 text-[10px] font-mono text-zinc-500 uppercase tracking-widest pt-4">
-              <ChevronDown className="w-4 h-4 mb-2" />
-              <span>Data</span>
-              <div className="w-10 h-10 rounded-full border border-zinc-800 flex items-center justify-center text-white font-medium bg-[#111]">
-                07
-              </div>
-              <span>2024</span>
+            {/* Logo */}
+            <div className="flex items-center">
+              <img src="/logoesteticaauto.png" alt="Sena Estética Automotiva" className="h-16 lg:h-24 w-auto object-contain drop-shadow-lg" style={{ imageRendering: 'high-quality' }} />
             </div>
 
             {/* Mobile Menu Icon */}
-            <div className="lg:hidden pt-4">
+            <div className="lg:hidden">
               <Menu className="w-8 h-8 text-white" />
             </div>
 
-            {/* Right Profile & Icons (Desktop only) */}
-            <div className="hidden lg:flex flex-col items-end gap-6 pt-4">
-              <div className="flex items-center gap-3 bg-[#111] border border-zinc-800 p-2 pr-4 rounded-full">
-                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=100&auto=format&fit=crop" alt="Profile" className="w-8 h-8 rounded-full object-cover" />
-                <div className="flex flex-col">
-                  <span className="text-xs font-semibold">Tatyana</span>
-                  <span className="text-[10px] text-zinc-500">Design Lead</span>
-                </div>
-              </div>
-              <div className="flex flex-col gap-4 text-zinc-500 items-center">
-                <ChevronDown className="w-4 h-4" />
-                <LayoutGrid className="w-5 h-5 hover:text-white transition-colors cursor-pointer" />
-                <Layers className="w-5 h-5 hover:text-white transition-colors cursor-pointer" />
-                <span className="font-display font-bold text-lg mt-2 hover:text-[#DFB78C] cursor-pointer transition-colors">T</span>
-              </div>
+            {/* Right Menu (Desktop) */}
+            <div className="hidden lg:flex items-center gap-10 font-mono text-xs uppercase tracking-widest text-zinc-400">
+              <a href="#" className="hover:text-white transition-colors">Serviços</a>
+              <a href="#" className="hover:text-white transition-colors">Portfólio</a>
+              <a href="#" className="hover:text-white transition-colors">Avaliações</a>
+              <a href="#" className="px-6 py-3 border border-zinc-800 rounded-full hover:border-[#E3242B] hover:text-[#E3242B] transition-colors text-white font-semibold">
+                Agendar Horário
+              </a>
             </div>
           </nav>
 
-          {/* Main Huge Typography */}
-          <div className="flex flex-col items-center justify-center w-full relative z-10 mt-12 lg:mt-0 lg:absolute lg:top-[12%] pointer-events-none">
-            <motion.h1 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: mounted ? 1 : 0, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="text-[15vw] lg:text-[11vw] leading-[0.85] font-display font-black uppercase text-[#E0E0E0] tracking-tighter"
+          {/* Main Hero Layout (Aligned to reference moldes) */}
+          <div className="w-full max-w-[1600px] flex flex-col lg:flex-row items-center justify-between mt-12 lg:mt-8 z-20 relative flex-1">
+            
+            {/* Left Column: Typography & Review */}
+            <motion.div 
+              style={{ y: heroTextY }}
+              className="w-full lg:w-[55%] flex flex-col justify-center relative z-40"
             >
-              ESTÉTICA
-            </motion.h1>
-            <motion.h1 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: mounted ? 1 : 0, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
-              className="text-[15vw] lg:text-[11vw] leading-[0.85] font-display font-black uppercase text-[#DFB78C] tracking-tighter relative z-30"
-            >
-              AUTOMOTIVA
-            </motion.h1>
-            <motion.h1 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: mounted ? 1 : 0, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-              className="text-[15vw] lg:text-[11vw] leading-[0.85] font-display font-black uppercase text-[#E0E0E0] tracking-tighter"
-            >
-              PREMIUM
-            </motion.h1>
-          </div>
+              <motion.h2 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: mounted ? 1 : 0, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="text-zinc-500 font-display font-bold tracking-widest text-sm lg:text-lg uppercase mb-2 lg:mb-4 ml-1"
+              >
+                Estúdio Especializado em
+              </motion.h2>
+              <motion.h1 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: mounted ? 1 : 0, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+                className="text-[18vw] lg:text-[7.5vw] leading-[0.9] font-display font-black uppercase text-[#E3242B] tracking-tighter drop-shadow-xl"
+              >
+                ESTÉTICA
+              </motion.h1>
+              <motion.h1 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: mounted ? 1 : 0, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+                className="text-[18vw] lg:text-[7.5vw] leading-[0.9] font-display font-black uppercase text-[#E0E0E0] tracking-tighter drop-shadow-xl"
+              >
+                AUTOMOTIVA
+              </motion.h1>
 
-          {/* Hero Car Image (Using mix-blend-screen for transparent effect on black bg) */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: mounted ? 1 : 0, scale: 1 }}
-            transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
-            className="w-full max-w-[1200px] mt-10 lg:mt-0 lg:absolute lg:top-[25%] lg:left-1/2 lg:-translate-x-1/2 z-20 pointer-events-none"
-          >
-            <img 
-              src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=2070&auto=format&fit=crop" 
-              alt="Porsche" 
-              className="w-full h-auto object-contain mix-blend-screen opacity-90"
-            />
-          </motion.div>
-
-          {/* Review Card Floating */}
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: mounted ? 1 : 0, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="w-full lg:w-auto relative lg:absolute lg:bottom-20 lg:left-20 z-40 bg-[#121212]/90 backdrop-blur-md p-6 rounded-[24px] border border-white/5 max-w-sm mt-12 lg:mt-0"
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop" alt="Client" className="w-10 h-10 rounded-full" />
-              <div>
-                <p className="text-sm font-semibold">Roberto</p>
-                <div className="flex gap-1 mt-1">
-                  {[1, 2, 3, 4, 5].map(i => <Star key={i} className="w-3 h-3 fill-[#DFB78C] text-[#DFB78C]" />)}
+              {/* Review Card Floating */}
+              <motion.div 
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: mounted ? 1 : 0, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="w-full lg:w-auto relative z-40 bg-[#121212] p-6 rounded-[24px] border border-white/5 max-w-sm mt-12 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop" alt="Client" className="w-10 h-10 rounded-full" />
+                  <div>
+                    <p className="text-sm font-semibold text-white">Roberto</p>
+                    <div className="flex gap-1 mt-1">
+                      {[1, 2, 3, 4, 5].map(i => <Star key={i} className="w-3 h-3 fill-[#E3242B] text-[#E3242B]" />)}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <p className="text-sm text-zinc-400 leading-relaxed">
-              O nível de detalhamento é absurdo. Deixaram meu carro impecável, parecendo que acabou de sair da concessionária. Serviço de altíssimo padrão. Recomendo de olhos fechados.
-            </p>
-            <div className="text-[10px] text-zinc-600 mt-4 text-right">09:37</div>
-          </motion.div>
+                <p className="text-sm text-zinc-400 leading-relaxed font-light">
+                  O nível de detalhamento é absurdo. Deixaram meu carro impecável, parecendo que acabou de sair da concessionária. Serviço de altíssimo padrão. Recomendo de olhos fechados.
+                </p>
+                <div className="text-[10px] text-zinc-600 mt-4 text-right">09:37</div>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Column: Hero Car Image */}
+            <motion.div 
+              style={{ y: heroCarY }}
+              className="w-full lg:w-[45%] relative mt-12 lg:mt-0 flex items-center justify-center lg:justify-end z-10"
+            >
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95, x: 50 }}
+                animate={{ opacity: mounted ? 1 : 0, scale: 1, x: 0 }}
+                transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
+                className="relative w-full lg:absolute lg:right-[-5%] lg:w-[120%] z-20 pointer-events-none"
+              >
+                <img 
+                  src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=1200&auto=format&fit=crop" 
+                  alt="Carro de Alta Performance" 
+                  className="w-full h-auto object-cover rounded-3xl lg:rounded-none drop-shadow-2xl brightness-75"
+                  style={{
+                    WebkitMaskImage: 'linear-gradient(to left, black 80%, transparent 100%)',
+                    maskImage: 'linear-gradient(to left, black 80%, transparent 100%)'
+                  }}
+                />
+              </motion.div>
+            </motion.div>
+          </div>
         </section>
 
 
@@ -158,43 +186,54 @@ export default function App() {
               {/* Left Column */}
               <div className="max-w-xl">
                 {/* 01 Block */}
-                <div className="mb-16">
+                <motion.div 
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
+                  className="mb-16"
+                >
                   <h2 className="font-display font-black text-2xl uppercase tracking-widest flex items-center gap-4 mb-6">
-                    <span className="text-[#DFB78C] text-3xl">01</span> SERVIÇOS
+                    <span className="text-[#E3242B] text-3xl">01</span> SERVIÇOS
                   </h2>
                   <p className="text-zinc-400 text-sm leading-relaxed mb-6 font-light">
                     O nosso estúdio é especializado em estética automotiva de alto luxo. O objetivo é restaurar e proteger a pintura original, entregando um brilho incomparável.
                   </p>
-                  <div className="border-l-2 border-[#DFB78C] pl-6 py-2">
+                  <div className="border-l-2 border-[#E3242B] pl-6 py-2">
                     <p className="text-sm font-medium italic text-zinc-300">
                       // Trabalhamos com as melhores vitrificaçōes e compostos do mercado, garantindo durabilidade e proteção extrema.
                     </p>
                   </div>
-                </div>
+                </motion.div>
 
                 {/* 02 Block */}
-                <div>
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+                >
                   <h2 className="font-display font-black text-2xl uppercase tracking-widest flex items-center gap-4 mb-8">
-                    <span className="text-[#DFB78C] text-3xl">02</span> SOLUÇÕES
+                    <span className="text-[#E3242B] text-3xl">02</span> SOLUÇÕES
                   </h2>
                   
                   <ul className="space-y-6">
                     <li className="flex items-start gap-4 group">
-                      <ArrowRight className="w-5 h-5 text-zinc-600 group-hover:text-[#DFB78C] transition-colors shrink-0 mt-0.5" />
+                      <ArrowRight className="w-5 h-5 text-zinc-600 group-hover:text-[#E3242B] transition-colors shrink-0 mt-0.5" />
                       <div>
                         <strong className="text-white block mb-1">Detalhamento Profundo</strong>
                         <span className="text-zinc-500 text-sm font-light">Limpeza minuciosa de cada fresta, interior e exterior, sem ruído visual.</span>
                       </div>
                     </li>
                     <li className="flex items-start gap-4 group">
-                      <ArrowRight className="w-5 h-5 text-zinc-600 group-hover:text-[#DFB78C] transition-colors shrink-0 mt-0.5" />
+                      <ArrowRight className="w-5 h-5 text-zinc-600 group-hover:text-[#E3242B] transition-colors shrink-0 mt-0.5" />
                       <div>
                         <strong className="text-white block mb-1">Correção de Pintura</strong>
                         <span className="text-zinc-500 text-sm font-light">Remoção de micro-riscos e hologramas, devolvendo a profundidade da cor.</span>
                       </div>
                     </li>
                     <li className="flex items-start gap-4 group">
-                      <ArrowRight className="w-5 h-5 text-zinc-600 group-hover:text-[#DFB78C] transition-colors shrink-0 mt-0.5" />
+                      <ArrowRight className="w-5 h-5 text-zinc-600 group-hover:text-[#E3242B] transition-colors shrink-0 mt-0.5" />
                       <div>
                         <strong className="text-white block mb-1">Proteção Cerâmica (Vitrificação)</strong>
                         <span className="text-zinc-500 text-sm font-light">Camada de sacrifício que repele água, sujeira e protege contra raios UV.</span>
@@ -202,22 +241,28 @@ export default function App() {
                     </li>
                   </ul>
 
-                  <button className="mt-10 px-8 py-4 border border-zinc-700 rounded-full text-sm font-medium hover:border-[#DFB78C] hover:text-[#DFB78C] transition-all flex items-center gap-3">
+                  <button className="mt-10 px-8 py-4 border border-zinc-700 rounded-full text-sm font-medium hover:border-[#E3242B] hover:text-[#E3242B] transition-all flex items-center gap-3">
                     Agendar Avaliação <Check className="w-4 h-4" />
                   </button>
-                </div>
+                </motion.div>
               </div>
 
               {/* Right Column / Car & Floating Card */}
-              <div className="relative h-[400px] lg:h-auto mt-12 lg:mt-0">
+              <motion.div 
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
+                className="relative flex flex-col items-center mt-12 lg:mt-0"
+              >
                 <img 
                   src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=2000&auto=format&fit=crop" 
                   alt="BMW Custom" 
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] max-w-[800px] mix-blend-screen opacity-80 pointer-events-none"
+                  className="w-full max-w-[600px] lg:absolute lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 lg:w-[150%] lg:max-w-[800px] mix-blend-screen opacity-80 pointer-events-none mb-8 lg:mb-0"
                 />
                 
                 {/* Result Card overlapping */}
-                <div className="absolute bottom-0 right-0 lg:-bottom-12 lg:-right-12 bg-[#D1D1D1] text-black p-8 rounded-[24px] max-w-[340px] shadow-2xl">
+                <div className="relative lg:absolute lg:bottom-0 lg:-left-4 bg-[#D1D1D1] text-black p-8 rounded-[24px] max-w-[340px] shadow-2xl z-20">
                   <div className="flex justify-between items-start mb-6">
                     <h3 className="font-display font-black text-2xl uppercase">NOSSA<br/>GARANTIA</h3>
                     <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=100&auto=format&fit=crop" alt="Profile" className="w-10 h-10 rounded-full" />
@@ -229,7 +274,7 @@ export default function App() {
                     Veículo protegido e com brilho espelhado por até 3 anos.
                   </p>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
@@ -239,13 +284,13 @@ export default function App() {
           
           {/* Top Labels */}
           <div className="flex justify-between w-full relative z-20 font-display font-bold text-[10px] tracking-widest uppercase text-zinc-500">
-            <div className="border-b-2 border-[#A6101E] pb-1 text-white">POSTER NO. 101</div>
+            <div className="border-b-2 border-[#E3242B] pb-1 text-white">POSTER NO. 101</div>
             <div>ALTA PERFORMANCE</div>
             <div>VITRIFICAÇÃO 9H</div>
           </div>
 
           {/* Diagonal Red Stripe */}
-          <div className="absolute top-[-20%] left-[10%] lg:left-[30%] w-[150vw] lg:w-[35vw] h-[150%] bg-[#A6101E] -skew-x-[20deg] z-10 shadow-2xl"></div>
+          <div className="absolute top-[-20%] left-[10%] lg:left-[30%] w-[150vw] lg:w-[35vw] h-[150%] bg-[#E3242B] -skew-x-[20deg] z-10 shadow-2xl"></div>
 
           {/* Vertical Text */}
           <div className="absolute right-2 lg:right-8 top-0 h-full flex items-center z-0 pointer-events-none">
@@ -266,7 +311,7 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 1 }}
-              className="relative w-full max-w-[700px] -ml-0 lg:-ml-48 mb-8 lg:mb-0"
+              className="relative w-full max-w-[600px] lg:-ml-32 mb-4 lg:mb-0 z-20"
             >
               <img 
                 src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?q=80&w=1600&auto=format&fit=crop" 
@@ -281,7 +326,7 @@ export default function App() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 1, delay: 0.3 }}
-              className="relative w-full max-w-[900px] mt-[-80px] lg:mt-[-180px] z-30"
+              className="relative w-full max-w-[800px] mt-[-40px] lg:mt-[-100px] z-30"
             >
               <img 
                 src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=1600&auto=format&fit=crop" 
@@ -333,11 +378,62 @@ export default function App() {
           
           {/* Logos bottom left */}
           <div className="absolute bottom-8 left-6 lg:bottom-12 lg:left-12 z-30 flex items-center gap-4">
-             <span className="font-display font-black text-xl lg:text-2xl tracking-tighter text-white uppercase">Sua Logo</span>
-             <div className="flex items-center gap-2 text-[9px] font-bold tracking-widest border-l border-[#A6101E] pl-4 uppercase">
-               <div className="w-2 h-2 lg:w-3 lg:h-3 bg-[#A6101E]"></div>
-               Estética Sport
+             <img src="/logoesteticaauto.png" alt="Sena" className="h-12 lg:h-16 w-auto object-contain drop-shadow-md" style={{ imageRendering: 'high-quality' }} />
+             <div className="flex items-center gap-2 text-[9px] font-bold tracking-widest border-l border-[#E3242B] pl-4 uppercase">
+               <div className="w-2 h-2 lg:w-3 lg:h-3 bg-[#E3242B]"></div>
+               Estética Automotiva
              </div>
+          </div>
+        </section>
+
+        {/* FAQ SECTION */}
+        <section className="px-6 lg:px-12 py-24 bg-[#090909] border-t border-white/5">
+          <div className="max-w-[1000px] mx-auto">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-[#E3242B] font-display font-bold tracking-widest text-sm uppercase mb-4">Ficou com Dúvidas?</h2>
+              <h3 className="text-4xl lg:text-5xl font-display font-black text-white uppercase tracking-tighter">Perguntas Frequentes</h3>
+            </motion.div>
+
+            <div className="space-y-4">
+              {faqs.map((faq, index) => (
+                <div 
+                  key={index} 
+                  className={`border rounded-2xl overflow-hidden bg-[#111] transition-all duration-300 ${openFaq === index ? 'border-[#E3242B]' : 'border-zinc-800 hover:border-zinc-700'}`}
+                >
+                  <button 
+                    onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                    className="w-full flex justify-between items-center p-6 text-left"
+                  >
+                    <span className={`font-display font-bold text-lg lg:text-xl pr-8 transition-colors ${openFaq === index ? 'text-white' : 'text-zinc-300'}`}>
+                      {faq.question}
+                    </span>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors ${openFaq === index ? 'bg-[#E3242B] text-white' : 'bg-zinc-900 text-[#E3242B]'}`}>
+                      {openFaq === index ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                    </div>
+                  </button>
+                  <AnimatePresence>
+                    {openFaq === index && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                      >
+                        <div className="p-6 pt-0 text-zinc-400 font-light leading-relaxed border-t border-zinc-800/50 mt-2">
+                          {faq.answer}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -347,7 +443,7 @@ export default function App() {
             
             {/* Left Column - Huge text */}
             <div>
-              <h2 className="text-[12vw] lg:text-[7vw] leading-[0.9] font-display font-black text-[#DFB78C] uppercase tracking-tighter">
+              <h2 className="text-[12vw] lg:text-[7vw] leading-[0.9] font-display font-black text-[#E3242B] uppercase tracking-tighter">
                 FOCO
               </h2>
               <h2 className="text-[12vw] lg:text-[7vw] leading-[0.9] font-display font-black text-white/30 uppercase tracking-tighter mb-8">
@@ -367,7 +463,7 @@ export default function App() {
                 whileInView={{ opacity: 1, y: 0, rotateX: 20, rotateY: -15, rotateZ: -12 }}
                 viewport={{ once: true }}
                 transition={{ duration: 1 }}
-                className="absolute left-[10%] lg:left-[20%] top-[10%] w-[280px] h-[580px] bg-[#161616] rounded-[40px] border-[6px] border-[#222] shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col"
+                className="absolute left-[5%] lg:left-[15%] top-[5%] lg:top-[10%] w-[260px] lg:w-[280px] h-[560px] lg:h-[580px] bg-[#161616] rounded-[40px] border-[6px] border-[#222] shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col z-10"
               >
                 {/* Fake App UI */}
                 <div className="flex-1 p-6 flex flex-col relative">
@@ -385,7 +481,7 @@ export default function App() {
                      <div className="h-12 w-full bg-zinc-900 rounded-xl border border-zinc-800"></div>
                      <div className="h-32 w-full bg-zinc-900 rounded-xl border border-zinc-800"></div>
                   </div>
-                  <div className="h-14 w-full bg-[#DFB78C] rounded-xl mt-4 flex items-center justify-center text-black font-bold text-sm">ENVIAR</div>
+                  <div className="h-14 w-full bg-[#E3242B] rounded-xl mt-4 flex items-center justify-center text-black font-bold text-sm">ENVIAR</div>
                 </div>
               </motion.div>
 
@@ -395,7 +491,7 @@ export default function App() {
                 whileInView={{ opacity: 1, y: 0, rotateX: 15, rotateY: 25, rotateZ: 8 }}
                 viewport={{ once: true }}
                 transition={{ duration: 1, delay: 0.2 }}
-                className="absolute right-[5%] lg:right-[15%] top-[25%] w-[280px] h-[580px] bg-[#111] rounded-[40px] border-[6px] border-[#222] shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col"
+                className="absolute right-[5%] lg:right-[10%] top-[30%] lg:top-[25%] w-[260px] lg:w-[280px] h-[560px] lg:h-[580px] bg-[#111] rounded-[40px] border-[6px] border-[#222] shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col z-20"
               >
                 {/* Fake App UI 2 */}
                 <div className="h-[45%] w-full bg-zinc-900 relative">
@@ -403,7 +499,7 @@ export default function App() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#111] to-transparent"></div>
                 </div>
                 <div className="flex-1 p-6 relative z-10 -mt-10">
-                  <h3 className="font-display font-black text-xl mb-2 text-white uppercase">Nossos <br/><span className="text-[#DFB78C]">Trabalhos</span></h3>
+                  <h3 className="font-display font-black text-xl mb-2 text-white uppercase">Nossos <br/><span className="text-[#E3242B]">Trabalhos</span></h3>
                   <p className="text-xs text-zinc-400 mb-6 line-clamp-2">Acompanhe o portfólio completo de transformações recentes no estúdio.</p>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="aspect-square bg-zinc-800 rounded-xl overflow-hidden">
@@ -424,21 +520,127 @@ export default function App() {
 
             </div>
           </div>
-          
-          {/* Footer Grid / Meta info */}
-          <div className="max-w-[1500px] mx-auto mt-20 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-zinc-500 text-sm font-mono uppercase tracking-widest">
-            <div className="flex gap-8">
-              <span>Sede: SÃO PAULO, BR</span>
-              <span>EST. 2024</span>
-            </div>
-            <div className="text-3xl font-display font-black text-zinc-800">
-              320 PX
-            </div>
-            <div>
-               // DESIGN INSPIRATION
-            </div>
-          </div>
+          {/* Footer Grid / Meta info (Replaced by ELEGANT FOOTER) */}
         </section>
+
+        {/* ELEGANT FOOTER */}
+        <footer className="w-full bg-[#050505] pt-20 pb-10 px-6 lg:px-12 border-t border-white/5">
+          <div className="max-w-[1500px] mx-auto flex flex-col">
+            
+            {/* Top Section */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-20">
+              
+              {/* Brand */}
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="flex flex-col gap-6 lg:col-span-1"
+              >
+                <div className="flex items-start">
+                  <img src="/logoesteticaauto.png" alt="Sena Estética Automotiva" className="h-24 lg:h-36 w-auto object-contain drop-shadow-xl" style={{ imageRendering: 'high-quality' }} />
+                </div>
+                <p className="text-zinc-400 font-light text-sm leading-relaxed max-w-xs">
+                  Estúdio de estética automotiva premium focado em alta performance, proteção duradoura e atenção aos mínimos detalhes.
+                </p>
+              </motion.div>
+
+              {/* Quick Links */}
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+                className="flex flex-col gap-6"
+              >
+                <h4 className="font-display font-bold text-white uppercase tracking-widest text-sm">Links Úteis</h4>
+                <div className="flex flex-col gap-3 text-sm text-zinc-400 font-light">
+                  <a href="#" className="hover:text-[#E3242B] transition-colors w-fit">Nossos Serviços</a>
+                  <a href="#" className="hover:text-[#E3242B] transition-colors w-fit">Avaliações</a>
+                  <a href="#" className="hover:text-[#E3242B] transition-colors w-fit">Dúvidas Frequentes</a>
+                  <a href="#" className="hover:text-[#E3242B] transition-colors w-fit">Política de Privacidade</a>
+                  <a href="#" className="hover:text-[#E3242B] transition-colors w-fit">Política de Cookies</a>
+                  <a href="#" className="hover:text-[#E3242B] transition-colors w-fit">Termos de Autorização</a>
+                </div>
+              </motion.div>
+
+              {/* Contact */}
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+                className="flex flex-col gap-6"
+              >
+                <h4 className="font-display font-bold text-white uppercase tracking-widest text-sm">Contato</h4>
+                <div className="flex flex-col gap-3 text-sm text-zinc-400 font-light">
+                  <a href="#" className="hover:text-white transition-colors w-fit flex items-center gap-3">
+                    <span className="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center text-[#E3242B]">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    </span>
+                    (11) 99999-9999
+                  </a>
+                  <a href="#" className="hover:text-white transition-colors w-fit flex items-center gap-3">
+                    <span className="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center text-[#E3242B]">
+                      <MapPin className="w-4 h-4" />
+                    </span>
+                    São Paulo, SP
+                  </a>
+                </div>
+              </motion.div>
+
+              {/* Social / CTA */}
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
+                className="flex flex-col gap-6"
+              >
+                <h4 className="font-display font-bold text-white uppercase tracking-widest text-sm">Redes Sociais</h4>
+                <div className="flex gap-4">
+                  <a href="#" className="w-12 h-12 rounded-full border border-zinc-800 flex items-center justify-center hover:bg-[#E3242B] hover:border-[#E3242B] transition-all text-white group">
+                    <Instagram className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  </a>
+                  <a href="#" className="w-12 h-12 rounded-full border border-zinc-800 flex items-center justify-center hover:bg-[#E3242B] hover:border-[#E3242B] transition-all text-white group">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 3.4L3 21" /><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1" /></svg>
+                  </a>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Bottom Bar */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, ease: "easeOut", delay: 0.5 }}
+              className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-mono uppercase tracking-widest text-zinc-600"
+            >
+              <p>© 2024 SENA ESTÉTICA AUTOMOTIVA. TODOS OS DIREITOS RESERVADOS.</p>
+              <div className="flex gap-8">
+                <a href="#" className="hover:text-white transition-colors">Termos de Uso</a>
+                <a href="#" className="hover:text-white transition-colors">Privacidade</a>
+              </div>
+            </motion.div>
+          </div>
+        </footer>
+
+        {/* Floating WhatsApp Button */}
+        <div className="fixed bottom-6 right-6 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-[#E3242B] rounded-full animate-ping opacity-40 duration-1000"></div>
+          <a 
+            href="https://wa.me/5511999999999" 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="relative bg-[#E3242B] text-white p-4 rounded-full shadow-[0_10px_30px_rgba(227,36,43,0.5)] hover:bg-white hover:text-[#E3242B] transition-colors duration-300 flex items-center justify-center group"
+          >
+            <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 group-hover:scale-110 transition-transform">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg>
+          </a>
+        </div>
 
       </div>
     </>
